@@ -19,16 +19,6 @@ interface MapComprehension {
   <i1, i2, i3, i4, k, v>(i_0: i1[], i_1: i2[], i_2: i3[], i_3: i4[], out: (i_0: i1, i_1: i2, i_2: i3, i_3: i4[]) => [k, v], ...predicates: Array<(i_0: i1, i_1: i2, i_2: i3, i_3: i4) => boolean>): Map<k, v>
 }
 
-const cross_join = (...a: any[][]): any[] =>  {
-  let f = (a: any[], b: any[]) => [].concat(...a.map(a => b.map(b => [].concat(a, b))));
-  // @ts-ignore
-  let cartesian = (a: any[], b:any[], ...c: any[]) => b ? cartesian(f(a, b), ...c) : a;
-
-
-  return cartesian(a[0], a[1], ...a.splice(2))
-}
-
-
 export const array: Comprehension = function(...args) {
   const out_index = args.findIndex(a => typeof a == 'function')
   const inputs = [...args].splice(0, out_index)
@@ -38,23 +28,17 @@ export const array: Comprehension = function(...args) {
 
   if (inputs.length == 1) return inputs[0].filter(v => predicates.every(p => p(...v))).map(f)
 
-  if (inputs.length == 2) {
-    const values = c(inputs[0], inputs[1])
-    return values.filter(v => predicates.every(p => p(...v))).map(v => f(...v))
-  }
-
-  if (inputs.length == 3) {
-    const values = cc(inputs[0], inputs[1], inputs[2])
-    return values.filter(v => predicates.every(p => p(...v))).map(v => f(...v))
-  }
-
-  return []
+  return cross_join(inputs).filter(v => predicates.every(p => p(...v))).map(v => f(...v))
 }
 
 export const set: SetComprehension = (...args: any[]) => new Set(array.apply(undefined, args))
 
-const c = (a: any[], b: any[]): any[] => a.map(a => b.map(b => [a, b])).reduce((a, b) => a.concat(b))
-const cc = (a: any[], b: any[], _c: any[]): any[] => c(c(a, b), _c).map(v => v[0].concat([v[1]]))
+const cross_join_with = (current: any[][], next: any[]) => next.map(n => current.map(c => c.concat(n))).reduce((a, b) => a.concat(b), [])
+
+const cross_join = (sets: any[][]) => {
+  let seed = sets.shift().map(x => [x])
+  return sets.reduce(cross_join_with, seed)
+}
 
 export const map: MapComprehension = function (...args) {
   const out_index = args.findIndex(a => typeof a == 'function')
@@ -65,16 +49,6 @@ export const map: MapComprehension = function (...args) {
 
   if(inputs.length == 1) return new Map(inputs[0].map(f))
 
-  if(inputs.length == 2) {
-    const values = c(inputs[0], inputs[1])
-    return new Map(values.map(v => f(...v)))
-  }
-
-  if (inputs.length == 3) {
-    const values = cc(inputs[0], inputs[1], inputs[2])
-    return new Map(values.map(v => f(...v)))
-  }
-
-  return new Map()
+  return new Map(cross_join(inputs).filter(v => predicates.every(p => p(...v))).map(f))
 }
 
