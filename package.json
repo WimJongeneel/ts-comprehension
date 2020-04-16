@@ -1,9 +1,32 @@
 {
-  "name": "ts-railroad-programming",
-  "version": "1.0.0",
-  "main": "index.js",
+  "name": "ts-list-comprehension",
+  "description": "List comprehension for TypeScript",
+  "version": "1.0.1",
   "license": "MIT",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "author": "Wim Jongeneel <wim.jongeneel1@gmail.com>",
+  "displayName": "List comprehension for TypeScript",
+  "keywords": [
+    "TypeScript",
+    "List comprehension",
+    "comprehension",
+    "Collections"
+  ],
   "devDependencies": {
     "typescript": "^3.7.5"
+  },
+  "contributors": [
+    {
+      "name": "Wim Jongeneel",
+      "email": "wim.jongeneel1@gmail.com"
+    }
+  ],
+  "scripts": {
+    "prepublishOnly": "yarn tsc -d"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/WimJongeneel/ts-comprehension"
   }
 }
