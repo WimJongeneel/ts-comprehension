@@ -1,7 +1,7 @@
 {
   "name": "ts-list-comprehension",
   "description": "List comprehension for TypeScript",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "license": "MIT",
   "main": "build/index.js",
   "types": "build/index.d.ts",
@@ -30,7 +30,7 @@
     "url": "https://github.com/WimJongeneel/ts-comprehension"
   },
   "files": [
-    "./buid/*",
+    "./build/*",
     "./src/*"
   ]
 }
