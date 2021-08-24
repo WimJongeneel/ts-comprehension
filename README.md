@@ -1,6 +1,6 @@
 # List Comprehension for TypeScript
 
-This library implements comprehension for arrys, sets and maps for TypeScript. It also offer a powerful library to construct populated arrays that can be used with the comprehension functions.
+This library implements comprehension for arrays, sets and maps for TypeScript. It also offer a powerful library to construct populated arrays that can be used with the comprehension functions.
 
 ## Examples
 
